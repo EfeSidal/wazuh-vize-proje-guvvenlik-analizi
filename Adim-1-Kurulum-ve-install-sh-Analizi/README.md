@@ -3,18 +3,18 @@
 **Proje:** Wazuh[](https://github.com/wazuh/wazuh)  
 **Analiz edilen dosya:** `install.sh` (root klasörde)  
 **Raw link:** https://raw.githubusercontent.com/wazuh/wazuh/main/install.sh  
-**Son commit (install.sh):** 1 Nisan 2026 - "refactor: streamline installer logging"
+**Son commit (install.sh):** 1 Nisan 2026
 
 ## Görev
 Bu dosya tek tek ne yapıyor? Hangi dizinleri oluşturuyor, hangi yetkileri istiyor? Belgelenmesi gerekmektedir.
 
 ## Analiz
 
-`install.sh` **kaynak kodundan derleme** (source install) yapan interaktif bir kurulum wizard’ıdır. Manager veya Agent kurulumunu yönetir.
+`install.sh`, **kaynak kodundan derleme** (source install) yapan interaktif bir kurulum wizard’ıdır. Manager veya Agent kurulumunu yönetir.
 
 ### Script’in Adım Adım Yaptıkları:
 1. Kendi dizinine geçer ve argümanları okur (dil, debug, binary vs.).
-2. OS tespiti yapar.
+2. İşletim sistemi tespiti yapar.
 3. Kurulum tipi seçimi (Manager / Agent).
 4. Mevcut kurulum kontrolü (`/var/ossec` veya `/var/wazuh-manager`).
 5. Kurulum dizini belirlenir (kullanıcı değiştirebilir).
@@ -41,16 +41,16 @@ Bu dosya tek tek ne yapıyor? Hangi dizinleri oluşturuyor, hangi yetkileri isti
 Bu `install.sh` **curl | bash** pattern’i kullanmıyor. Tamamen yerel kaynak kodundan derliyor.  
 Tek external indirme `make deps` komutu ile external/ klasörüne yapılır.  
 **Hash veya GPG imza doğrulaması bu script’te yok.**  
-Bağımlılıklar `make` tarafından indiriliyor, ancak doğrulama mekanizması belirtilmemiş.
 
 **Güvenlik Bulgusu (Orta Risk):**  
 Root yetkisi + hash kontrolü olmadan external dependency indirme → **supply-chain attack** riski taşıyor.  
 En iyi pratik: Repoyu clone ettikten sonra `git tag` ve GPG imzalarını manuel kontrol etmek.
 
-## Ekran Görüntüleri (Sen Ekle)
-- `install.sh` dosyasının GitHub sayfası
-- Script’in başında root kontrolü satırı
-- `make deps` ve `make` komutlarının geçtiği bölüm
+## Ekran Görüntüleri
+
+![install.sh GitHub sayfası](screenshots/1-install-sh-main.png)  
+![Root kontrolü bölümü](screenshots/2-root-check.png)  
+![make deps ve derleme bölümü](screenshots/3-make-deps.png)
 
 ---
 **Hazırlayan:** Efe Sidal  
